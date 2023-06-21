@@ -2,6 +2,9 @@ package prova2;
 
 
 import db.DB;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.*;
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -9,29 +12,17 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Teste1 {
+   
 
     public static void main(String[] args) {
         
-        Connection conn = DB.getConnection();
-        PreparedStatement pst = null;
-        try {
-            pst = conn.prepareStatement("insert into cliente(nome, telefone, endereco) values (?, ?, ?)");
-            pst.setString(1, "Maracuja");
-            pst.setString(2, "Banana");
-            pst.setString(3, "Hermes");
-            
-            pst.execute();
-        }
-        catch(SQLException e) {
-            e.printStackTrace();
-        }
-        
+           
         
         Scanner ler = new Scanner(System.in);
 
-        String nomeDoArquivo = "prova.txt";
-        String folder = "C:\\Users\\amori\\OneDrive\\Documents\\Prova2";
-        String path = folder + "/" + nomeDoArquivo;
+        String nomeDoArquivo = "Segundo.txt";
+        String folder = "C:\\Users\\amori\\OneDrive\\Desktop\\Ficheiro01";
+        String path = folder + "\\" + nomeDoArquivo;
 
         String nomeCl = "Sem Nome";
 
@@ -263,6 +254,32 @@ public class Teste1 {
 
         System.out.println(dados);
         
-        DB.closeConnection();
+        
     }
+    private static void guardarEmprestimo(String nomeDoArquivo, String path, List<String> dados) {
+
+        FileWriter stream;
+        PrintWriter print;
+
+        try {
+            //stream é uma conexao de escrita para o arquivo
+            stream = new FileWriter(path);
+            //class PrintWriter vai escrever no arquivo
+            print = new PrintWriter(stream);
+
+            for (String linha : dados) {
+                print.println(linha);
+            }
+            //fechar o arquivo
+            stream.close();
+            print.close();
+
+            System.out.println("O arquivo " + nomeDoArquivo + " foi guardado na pasta " + path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    
 }
